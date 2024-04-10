@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Welcome by wheelnav.js" />
+    <meta name="author" content="gabor.berkesi@softwaretailoring.net" />
+
+
+    <title>Swiss Army Menu</title>
+    </text>
+    <script type="text/javascript" src="raphael.min.js"></script>
+    <script type="text/javascript" src="raphael.icons.min.js"></script>
+    <script type="text/javascript" src="wheelnav.min.js"></script>
+
+    <style>
+      body {
+        background-color: #222831;
+        font-family: Helvetica, Arial, sans-serif;
+      }
+
+      header {
+        font-size: large;
+        text-align: center;
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+        padding: 5px;
+        font-family: Helvetica, sans-serif;
+        margin-bottom: 50px;
+      }
+      
+      footer {
+        text-align: center;
+        background-color: #3e3d3d00;
+        color: #ddd;
+        padding: 5px;
+        margin-top: 50px;
+      }
+      p{
+        font-size: large;
+        text-align: center;
+        color: rgb(255, 255, 255);
+        font-family: Helvetica, sans-serif;
+        margin-bottom: 5px;
+      }
+      #text {
+        font-size: x-large;
+        text-align: center;
+        color: rgb(255, 255, 255);
+        padding: 5px;
+        font-family: Verdana ,Georgia, Helvetica, sans-serif;
+      }
+
+      #wheelDiv {
+        height: 400px;
+        width: 400px;
+        margin: auto;
+      }
+
+      #wheelDiv > svg {
+        height: 100%;
+        width: 100%;
+      }
+
+      @media (max-width: 600px) {
+        #wheelDiv {
+          height: 350px;
+          width: 350px;
+        }
+      }
+
+      @media (max-width: 400px) {
+        #wheelDiv {
+          height: 300px;
+          width: 300px;
+        }
+      }
+
+      #piemenu > svg {
+        width: 100%;
+        height: 100%;
+      }
+      #piemenu {
+        height: 500px;
+        width: 500px;
+        margin: auto;
+      }
+
+      #piemenu2 > svg {
+        width: 100%;
+        height: 100%;
+      }
+      #piemenu2 {
+        height: 400px;
+        width: 400px;
+        margin: auto;
+      }
+
+      @media (max-width: 400px) {
+        #piemenu {
+          height: 300px;
+          width: 300px;
+        }
+        #piemenu2 {
+          height: 300px;
+          width: 300px;
+        }
+      }
+
+      [class|="wheelnav-piemenu-slice-basic"] {
+        fill: #FF9642;
+        stroke: beige;
+      }
+      [class|="wheelnav-piemenu-slice-selected"] {
+        fill: #fbc599;
+        stroke: beige;
+      }
+      [class|="wheelnav-piemenu-slice-hover"] {
+        fill: #fa7910;
+        stroke: none;
+        cursor: pointer;
+      }
+
+      [class|="wheelnav-piemenu-title-basic"] {
+        fill: black;
+        stroke: none;
+      }
+      [class|="wheelnav-piemenu-title-selected"] {
+        fill:black;
+        stroke: none;
+      }
+      [class|="wheelnav-piemenu-title-hover"] {
+        fill: black;
+        stroke: none;
+        cursor: pointer;
+      }
+
+      [class|="wheelnav-piemenu-title"] > tspan {
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 24px;
+      }
+
+      [class|="wheelnav-piemenu2-slice-basic"] {
+        fill:#8f97f3 ;
+        stroke: black;
+      }
+      [class|="wheelnav-piemenu2-slice-selected"] {
+        fill: #5966f5;
+        stroke: black;
+      }
+      [class|="wheelnav-piemenu2-slice-hover"] {
+        fill: #7984f5;
+        stroke: black;
+        fill-opacity: 0.77;
+        cursor: pointer;
+      }
+
+      [class|="wheelnav-piemenu2-title-basic"] {
+        fill: #333;
+        stroke: none;
+      }
+      [class|="wheelnav-piemenu2-title-selected"] {
+        fill: rgb(3, 3, 3);
+        stroke: none;
+      }
+      [class|="wheelnav-piemenu2-title-hover"] {
+        fill: #222;
+        stroke: none;
+        cursor: pointer;
+      }
+      [class|="wheelnav-piemenu2-title"] > tspan {
+        font-family: Impact, Charcoal, sans-serif;
+        font-size: 24px;
+      }
+      a {
+        color: rgb(255, 255, 255); /* Change to the desired color */
+        font-family: Arial, sans-serif; /* Change to the desired font family */
+        font-size: 16px; /* Change to the desired font size */
+        display: block;
+        margin: 0 auto; /* Centers the element horizontally */
+        text-align: center; /* Centers the text inside the element */
+        /* You can add more styling properties as needed */
+        }
+      .instructions-box {
+        background-color: rgba(255, 255, 255, 0.114); /* Semi-transparent white background */
+        border-radius: 15px; /* Rounded corners */
+        padding: 20px; /* Padding inside the box */
+        max-width: 600px; /* Maximum width of the box */
+        margin: 0 auto 20px; /* Center the box horizontally and add some bottom margin */
+        font-size: 17.3px; /* Font size of the instructions */
+        color: #fff; /* Text color */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a different font */
+        line-height: 1.6; /* Increase line height for better readability */
+      }
+    </style>
+
+    <script type="text/javascript">
+      window.onload = function () {
+        piemenu = new wheelnav("piemenu",null,600,600);
+        piemenu.clockwise = false;
+        piemenu.wheelRadius = piemenu.wheelRadius * 1.1;
+        piemenu.spreaderEnable = false;
+        piemenu.spreaderRadius = 60;
+        piemenu.createWheel(["1", "2", "3","4"]); 
+        
+        piemenu2 = new wheelnav('piemenu2',piemenu.raphael);
+        piemenu2.clockwise = false;
+        piemenu2.wheelRadius = piemenu2.wheelRadius * 0.45;
+        piemenu2.spreaderEnable = false ;
+        piemenu2.createWheel(["1","2","3"]);
+        
+        for (var i = 0; i <= 8; i++) {
+            piemenu.navItems[i].navItem.hide();
+        }
+
+      };
+
+      function f_bold() {
+        var element1 = document.getElementById("text");
+        if (element1.style.fontWeight == "normal") {
+            element1.style.fontWeight = "bold";
+        }
+        else {
+            element1.style.fontWeight = "normal";
+        }
+      }
+      function f_italic() {
+        var element2 = document.getElementById("text");
+        if (element2.style.fontStyle == "normal") {
+            element2.style.fontStyle = "italic";
+        }
+        else  {
+            element2.style.fontStyle = "normal";
+        }
+      }
+      function f_underline() {
+        var element3 = document.getElementById("text");
+        if (element3.style.textDecoration == "none") {
+            element3.style.textDecoration = "underline";
+        }
+        else  {
+            element3.style.textDecoration = "none";
+        }
+      }
+      function f_up() {
+        var element4 = document.getElementById("text");
+        if (element4.style.fontSize == "x-large"){
+            element4.style.fontSize = "xx-large";
+        }
+        else if (element4.style.fontSize == "large"){
+            element4.style.fontSize = "x-large";
+        }
+        else if (element4.style.fontSize == "medium"){
+            element4.style.fontSize = "large";
+        }
+        else if (element4.style.fontSize == "small"){
+            element4.style.fontSize = "medium";
+        }
+        else {
+            element4.style.fontSize = "xx-large";
+        }
+        
+      }
+      function f_down() {
+        var element5 = document.getElementById("text");
+        if (element5.style.fontSize == "xx-large"){
+            element5.style.fontSize = "x-large";
+        }
+        else if (element5.style.fontSize == "x-large"){
+            element5.style.fontSize = "large";
+        }
+        else if (element5.style.fontSize == "large"){
+            element5.style.fontSize = "medium";
+        }
+        else if (element5.style.fontSize == "medium"){
+            element5.style.fontSize = "small";
+        }
+        else {
+            element5.style.fontSize = "small";
+        }
+      }
+      function f_style(){
+        for (var i = 0; i <= 2; i++) {
+            piemenu.navItems[i].navItem.show();
+        }
+        for (var i = 3; i <= 8; i++) {
+            piemenu.navItems[i].navItem.hide();
+        }
+      }
+      function f_size(){
+        for (var i = 0; i <= 8; i++) {
+            if(i==3 || i==4) 
+                piemenu.navItems[i].navItem.show();
+            else
+                piemenu.navItems[i].navItem.hide();
+        }
+        
+      }
+      function f_color(){
+        for (var i = 0; i <= 5; i++) {
+            piemenu.navItems[i].navItem.hide();
+        }
+        for (var i = 6; i <= 8; i++) {
+            piemenu.navItems[i].navItem.show();
+        }
+        piemenu.navItems[6].navItem.show(); 
+        piemenu.navItems[7].navItem.show(); 
+        piemenu.navItems[8].navItem.show();
+    }
+    
+    function f_red() {
+        var element = document.getElementById("text");
+        if (element.style.color === "red") {
+            element.style.color = "white"; // Change color to white if it's already red
+        } else {
+            element.style.color = "red"; // Otherwise, change color to red
+        }
+    }
+    function f_blue() {
+      var element = document.getElementById("text");
+      if (element.style.color === "cornflowerblue") {
+          element.style.color = "white"; // Change color to white if it's already red
+      } else {
+          element.style.color = "cornflowerblue"; // Otherwise, change color to red
+      }
+  }
+    function f_green() {
+        var element = document.getElementById("text");
+        if (element.style.color === "green") {
+            element.style.color = "white"; // Change color to white if it's already red
+        } else {
+            element.style.color = "green"; // Otherwise, change color to red
+        }
+    }
+    </script>
+  </head>
+  
+  <body>
+    <header>
+      <p>
+        II Sem. 2023-24 || HCI Project Demo || 2020B4A70600P (Radhika Gupta)
+
+      </p>
+    </header>
+
+    <div class="instructions-box">
+    <p>
+        <strong>INSTRUCTIONS:</strong> <br>
+        <ul style="text-align: left;">
+          <li>To modify the text, click on one of the main options: Style, Size, or Color.</li>
+          <li>"Style" menu: Bold, Underline, and Italic. (multiselect possible).</li>
+          <li>"Size" menu: Increase or Decrease options to change text size.</li>
+          <li>"Color" menu: Red, Blue, or Green to change the text color.</li>
+        </ul>
+
+    <strong><p>SAMPLE TEXT:</p></strong>
+    <div id="text"> 
+        Lorem ipsum dolor sit amet <br> 
+    </div>
+    
+    <div
+    id="piemenu"
+    data-wheelnav
+    data-wheelnav-slicepath="DonutSlice"
+    data-wheelnav-rotateoff
+    data-wheelnav-navangle="130"
+    data-wheelnav-cssmode
+    data-wheelnav-init
+  >
+    <!-- Main menu items -->
+    <div data-wheelnav-navitemtext="BOLD" onmouseup="f_bold()"></div>
+    <div data-wheelnav-navitemtext="ITALIC" onmouseup="f_italic()"></div>
+    <div data-wheelnav-navitemtext="UNDERLINE" onmouseup="f_underline()"></div>  
+    <div data-wheelnav-navitemtext="INCREASE" onmouseup="f_up()"></div>
+    <div data-wheelnav-navitemtext="DECREASE" onmouseup="f_down()"></div>
+    <div data-wheelnav-navitemtext="blank" onmouseup="f_down()"></div>
+    <div data-wheelnav-navitemtext="RED" onmouseup="f_red()"></div>
+    <div data-wheelnav-navitemtext="BLUE" onmouseup="f_blue()"></div>
+    <div data-wheelnav-navitemtext="GREEN" onmouseup="f_green()"></div>
+  </div>
+
+  <!-- Submenu for style, size, and color -->
+  <div
+    id="piemenu2"
+    data-wheelnav
+    data-wheelnav-slicepath="DonutSlice"
+    data-wheelnav-rotateoff
+    data-wheelnav-navangle="49"
+    data-wheelnav-cssmode
+    data-wheelnav-init
+  >
+    <!-- Submenu items -->
+    <div data-wheelnav-navitemtext="COLOR" onmouseup="f_color()"></div>
+    <div data-wheelnav-navitemtext="STYLE" onmouseup="f_style()"></div>
+    <div data-wheelnav-navitemtext="SIZE" onmouseup="f_size()"></div>
+  </div>
+
+<a href="https://github.com/sanjana-226/swiss-army-menu">SOURCE CODE </a> <br>
+
+</body>
+</html>
